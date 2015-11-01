@@ -293,9 +293,9 @@ texturehdl::texturehdl()
 		unsigned error;
 		unsigned char* image;
 		unsigned int width, height;
-		const char* filename = (working_directory + "res/texture.png").c_str();
+		string filename = working_directory + "res/texture.png";
 
-		error = lodepng_decode32_file(&image, &width, &height, filename);
+		error = lodepng_decode32_file(&image, &width, &height, filename.c_str());
 
 		if (error)
 			printf("decoder error %u: %s\n", error, lodepng_error_text(error));
