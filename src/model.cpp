@@ -212,7 +212,7 @@ void modelhdl::load_mtl(string filename)
 					material[current_material] = new phonghdl();
 				else if (type == "custom")
 					material[current_material] = new customhdl();
-				else if (type == "gouraud")
+				else if (type == "texture")
 					material[current_material] = new texturehdl();
 			}
 			else if (command == "Ke" && type == "gouraud")
@@ -235,7 +235,6 @@ void modelhdl::load_mtl(string filename)
 				iss >> ((phonghdl*)material[current_material])->specular[0] >> ((phonghdl*)material[current_material])->specular[1] >> ((phonghdl*)material[current_material])->specular[2];
 			else if (command == "Ns" && type == "phong")
 				iss >> ((phonghdl*)material[current_material])->shininess;
-
 		}
 	}
 }
