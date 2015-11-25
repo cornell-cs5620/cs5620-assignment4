@@ -35,6 +35,10 @@ vec3f rigidhdl::get_position(int frame, double pos, double fraction, double step
 	{
 		// TODO Assignment 5: use hermite interpolation between position frames
 	}
+	else if (method == 3) // catmull rom
+	{
+		// TODO Assignment 5: use catmull rom interpolation between position frames
+	}
 	// TODO Assignment 5: try out any other interpolation methods that sound interesting to you
 
 	return positions[frame].begin()->second;
