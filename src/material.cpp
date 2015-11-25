@@ -8,6 +8,7 @@
 #include "material.h"
 #include "light.h"
 #include "lodepng.h"
+#include "common/text.h"
 
 GLuint whitehdl::vertex = 0;
 GLuint whitehdl::fragment = 0;
@@ -148,11 +149,11 @@ materialhdl *gouraudhdl::clone() const
 phonghdl::phonghdl()
 {
 	type = "phong";
-	emission = vec3f(0.0, 0.0, 0.0);
-	ambient = vec3f(0.1, 0.1, 0.1);
-	diffuse = vec3f(1.0, 1.0, 1.0);
-	specular = vec3f(1.0, 1.0, 1.0);
-	shininess = 1.0;
+	emission = vec3f(0.0f, 0.0f, 0.0f);
+	ambient = vec3f(0.2f, 0.2f, 0.2f);
+	diffuse = vec3f(0.8f, 0.8f, 0.8f);
+	specular = vec3f(0.0f, 0.0f, 0.0f);
+	shininess = 0.2f;
 
 	if (vertex == 0 && fragment == 0 && program == 0)
 	{
@@ -293,9 +294,9 @@ texturehdl::texturehdl()
 		unsigned error;
 		unsigned char* image;
 		unsigned int width, height;
-		string filename = working_directory + "res/texture.png";
+		const char* filename = (working_directory + "res/texture.png").c_str();
 
-		error = lodepng_decode32_file(&image, &width, &height, filename.c_str());
+		error = lodepng_decode32_file(&image, &width, &height, filename);
 
 		if (error)
 			printf("decoder error %u: %s\n", error, lodepng_error_text(error));
