@@ -99,6 +99,7 @@ void reshapefunc(int w, int h)
 	glutPostRedisplay();
 }
 
+bool warp = false;
 void pmotionfunc(int x, int y)
 {
 	if (bound)
@@ -111,26 +112,32 @@ void pmotionfunc(int x, int y)
 		mousex = x;
 		mousey = y;
 
-		bool warp = false;
+		bool set_warp = false;
 		if (mousex > 3*width/4 || mousex < width/4)
 		{
 			mousex = width/2;
-			warp = true;
+			set_warp = true;
 		}
 
 		if (mousey > 3*height/4 || mousey < height/4)
 		{
 			mousey = height/2;
-			warp = true;
+			set_warp = true;
 		}
 
-		if (warp)
-			glutWarpPointer(mousex, mousey);
+		if (!set_warp)
+			warp = false;
 
-		if (scene.active_camera_valid())
+		if (scene.active_camera_valid() && !warp)
 		{
 			scene.cameras[scene.active_camera]->orientation[1] -= (float)deltax/500.0;
 			scene.cameras[scene.active_camera]->orientation[0] -= (float)deltay/500.0;
+		}
+
+		if (set_warp)
+		{
+			glutWarpPointer(mousex, mousey);
+			warp = true;
 		}
 
 		glutPostRedisplay();
@@ -486,7 +493,6 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new directionalhdl());
 		scene.objects.push_back(new cylinderhdl(0.25, 1.0, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
@@ -503,14 +509,12 @@ void canvas_menu(int num)
 	{
 		scene.lights.push_back(new pointhdl());
 		scene.objects.push_back(new spherehdl(0.25, 4, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		scene.lights.back()->model = scene.objects.back();
 	}
 	else if (num == 9)
 	{
 		scene.lights.push_back(new spothdl());
 		scene.objects.push_back(new pyramidhdl(0.25, 1.0, 8));
-		((phonghdl*)scene.objects.back()->material["default"])->emission = vec3f(1.0, 1.0, 1.0);
 		for (int k = 0; k < scene.objects.back()->rigid.size(); k++)
 			for (int i = 0; i < scene.objects.back()->rigid[k].geometry.size(); i++)
 			{
