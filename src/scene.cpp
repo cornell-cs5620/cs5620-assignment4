@@ -71,7 +71,9 @@ void scenehdl::draw()
 					objects[i]->draw_normals(render_normals == face);
 
 				if (i == active_object)
+				{
 					objects[i]->draw_bound();
+				}
 			}
 		}
 }
